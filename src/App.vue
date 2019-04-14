@@ -3,16 +3,19 @@
     <HeaderList></HeaderList>
     <div class="main">
       <router-view name="main"></router-view>
+      <Add></Add>
     </div>
   </div>
 </template>
 
 <script>
   import HeaderList from './components/HeaderList'
+  import Add from './components/AddTopic'
 export default {
   name: 'App',
   components:{
-    HeaderList
+    HeaderList,
+    Add
   }
 }
 </script>

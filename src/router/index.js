@@ -11,16 +11,16 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      name: 'PostList1',
-      path: '/',
-      components:{
+      name: 'PostList',
+      path: '/:tab',
+      components: {
         main: PostList
       }
     },
     {
-      name: 'PostList',
-      path: '/:tab',
-      components: {
+      name: 'PostList1',
+      path: '/',
+      components:{
         main: PostList
       }
     },

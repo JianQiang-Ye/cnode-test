@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="postList">
+      <Pagination @changePage="handlePage"></Pagination>
       <ul>
         <li v-for="item in items">
           <div class="circle1"></div><div class="circle2"></div>
@@ -22,8 +23,12 @@
 </template>
 
 <script>
+  import Pagination from './Pagination'
   export default {
     name: "post-list",
+    components:{
+      Pagination
+    },
     data(){
       return {
         items: [],
@@ -33,7 +38,6 @@
     },
     methods:{
       getData(page,tab){
-        console.log(page,tab)
         this.$http.get('https://cnodejs.org/api/v1/topics',{params:{page,limit:20,tab}}).then((res)=>{
           this.items = res.data.data
         }).catch((err)=>{
@@ -46,6 +50,7 @@
       }
     },
     beforeMount(){
+      this.tab = this.$route.params.tab || 'all'
       this.getData(this.page,this.tab)
     },
       watch: {

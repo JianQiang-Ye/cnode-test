@@ -8,9 +8,15 @@
           <router-link :to="{name:'PostList1'}"><li><img src="../assets/cnodejs_light.svg" alt=""></li></router-link>
           <router-link :to="{name:'PostList',params: {tab: 'ask'}}"><li>问答<div class="underline"></div></li></router-link>
           <router-link :to="{name:'PostList',params: {tab: 'job'}}"><li>招聘<div class="underline"></div></li></router-link>
+          <li>
+            <svg class="icon" aria-hidden="true" fill="red">
+              <use xlink:href="#icon-chaxun"></use>z
+            </svg>
+            <input type="search" style="width: 100px">
+          </li>
         </ul>
       </div>
-      <svg xmlns="http://www.w3.org/2000/svg">
+      <svg xmlns="http://www.w3.org/2000/svg" class="irregularLineSVG">
         <defs>
           <pattern id="irregularLine" x="0" y="0" width="100%" height="100%">
             <polygon points="1380,0 1000,20 845,12 630,19 467,12 288,8 105,17 0,5 0,0" fill="#445b55"></polygon>
@@ -25,7 +31,7 @@
           fill="url(#irregularLine)"
           style="filter:url(#irregularLine-shadow)"
         ></rect>
-      </svg>
+    </svg>
     </div>
 </template>
 
@@ -41,6 +47,12 @@
 </script>
 
 <style scoped>
+  .icon {
+    width: 1em; height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+  }
   .nav{
     display: flex;
     justify-content: center;
@@ -79,7 +91,7 @@
     height: 78px;
     vertical-align: middle;
   }
-  svg {
+  svg.irregularLineSVG{
     width: 100%;
     height: 2rem;
     position: absolute;
@@ -88,5 +100,12 @@
   pattern {
     width: 100%;
     height: 100%;
+  }
+  svg.icon{
+    transform: scale(1.3);
+    fill: red;
+  }
+  ul li input{
+
   }
 </style>
