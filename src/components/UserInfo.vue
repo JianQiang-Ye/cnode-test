@@ -2,51 +2,49 @@
   <div class="content">
     <div class="panel">
       <div class="header">
-        主页
+        最近发表的笔记
       </div>
-      <div class="userinfo">
-        <img :src="user.avatar_url" alt="">
-        <span>{{user.loginname}}</span>
-        <div>
-          {{user.score}} 积分
-        </div>
-        <div class="dark">
-          github: <a :href="'https://github.com/' + user.githubUsername" target="_blank">{{user.githubUsername}}</a>
-        </div>
-        <div class="createTime">
-          注册时间 {{user.create_at | formatDate}}
-        </div>
-      </div>
+      <ul>
+        <li v-for="item in user.noteVos">
+          <router-link :to="{name: 'User_info',params:{userId: item.user.userId}}">
+            <img :src="'http://47.102.217.102:8080'+ item.user.headImgPath" class="avatar" :alt="item.user.nickname">
+          </router-link>
+          <router-link :to="{name: 'Article',params:{articleId:item.postId}}">
+            <span class="title">{{item.title}}</span>
+          </router-link>
+          <span class="last_reply">{{item.sendTime | formatDate}}</span>
+        </li>
+      </ul>
     </div>
     <div class="panel .recentCreateTopics">
       <div class="header">
-        最近创建的话题
+        最近创建的帖子
       </div>
         <ul>
-          <li v-for="item in recent_topics">
-            <router-link :to="{name: 'User_info',params:{name: item.author.loginname}}">
-              <img :src="item.author.avatar_url" class="avatar" :alt="item.author.loginname">
+          <li v-for="item in user.postVoMains">
+            <router-link :to="{name: 'User_info',params:{userId: item.user.userId}}">
+              <img :src="'http://47.102.217.102:8080'+ item.user.headImgPath" class="avatar" :alt="item.user.nickname">
             </router-link>
-            <router-link :to="{name: 'Article',params:{articleId:item.id}}">
+            <router-link :to="{name: 'Article',params:{articleId:item.postId}}">
               <span class="title">{{item.title}}</span>
             </router-link>
-            <span class="last_reply">{{item.last_reply_at | formatDate}}</span>
+            <span class="last_reply">{{item.sendTime | formatDate}}</span>
           </li>
         </ul>
     </div>
     <div class="panel">
       <div class="header">
-        最近回复的话题
+        最近回复的帖子
       </div>
       <ul>
-        <li v-for="item in user.recent_replies">
-          <router-link :to="{name: 'User_info',params:{name: item.author.loginname}}">
-            <img :src="item.author.avatar_url" class="avatar" :alt="item.author.loginname">
+        <li v-for="item in user.recentPosts">
+          <router-link :to="{name: 'User_info',params:{userId: item.user.userId}}">
+            <img :src="'http://47.102.217.102:8080'+ item.user.headImgPath" class="avatar" :alt="item.user.nickname">
           </router-link>
-          <router-link :to="{name: 'Article',params:{articleId:item.id}}">
+          <router-link :to="{name: 'Article',params:{articleId:item.postId}}">
             <span class="title">{{item.title}}</span>
           </router-link>
-          <span class="last_reply">{{item.last_reply_at | formatDate}}</span>
+          <span class="last_reply">{{item.sendTime | formatDate}}</span>
         </li>
       </ul>
     </div>
@@ -58,16 +56,20 @@
       name: "user-info",
       data(){
         return {
-          user: {},
-          recent_topics:[]
+          user: {}
         }
       },
       methods: {
         getData(){
-          this.$http.get(`https://cnodejs.org/api/v1/user/${this.$route.params.name}`).then((res)=>{
-            if(res.status === 200 && res.data.success === true){
+          // 请求个人信息
+          this.$http.get(`http://47.102.217.102:8080/noteshare2/user/getUserDetail/${this.$route.params.userId}`).then((res)=>{
+            console.log(res)
+            console.log('hhh')
+            console.log(res.data)
+            var object = JSON.parse(res.data.data)
+            console.log(object)
+            if(res.status === 200 && res.data.msg === '成功'){
               this.user = res.data.data
-              this.recent_topics = this.user.recent_topics
               console.log(res)
             }
           }).catch((err)=>{
@@ -98,11 +100,14 @@
 
 <style scoped>
   div.content{
-    max-width: 1062px;
+    width: 1000px;
+    display: inline-block;
+  }
+  div.content .panel {
+    margin-bottom: 12px;
   }
   div.header{
     background-color: #f6f6f6;
-    margin-top: 12px;
     font-size: 14px;
     color: #444;
     padding: 10px;
@@ -114,6 +119,7 @@
     padding: 10px;
   }
   .panel div.userinfo>img{
+    display: inline-block;
     height: 50px;
     width: 50px;
     vertical-align: top;

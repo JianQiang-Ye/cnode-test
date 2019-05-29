@@ -5,9 +5,16 @@ import App from './App'
 import router from './router'
 import Axios from 'axios'
 import './assets/markdown-github.css'
+import FormMaking from 'form-making'
+import 'form-making/dist/FormMaking.css'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css'
 
+Vue.use(ElementUI);
 
+Vue.use(FormMaking)
 
+Axios.defaults.withCredentials = true
 Vue.prototype.$http = Axios
 
 Vue.config.productionTip = false
@@ -33,7 +40,7 @@ Vue.filter('formatDate',function(value){
   }
 })
 Vue.filter('tabFormatter',function(item){
-  if(item.top){
+  if(item.isUp){
     return '置顶'
   }else if(item.good){
     return '精华'

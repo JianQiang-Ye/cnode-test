@@ -1,9 +1,9 @@
 <template>
   <div class="pagination">
-    <span @click="change(1)">首页</span>
-    <span @click="change(page-1)">上一页</span>
-    <span v-for="item in lists" @click="change(item)" :class="{'active': item===page}">{{item}}</span>
-    <span @click="change(page+1)">下一页</span>
+    <span @click="getNum(1)">首页</span>
+    <span @click="getNum(page-1)">上一页</span>
+    <span v-for="item in lists" @click="getNum(item)" :class="{'active': item===page}">{{item}}</span>
+    <span @click="getNum(page+1)">下一页</span>
   </div>
 </template>
 
@@ -12,23 +12,40 @@
         name: "pagination",
       data(){
           return {
-            lists: [1,2,3,4,5,'...'],
-            page: 1
+            lists: [1,2,3],
+            page: 1,
+            zoomId: 1
           }
       },
       methods: {
-          change(page){
-            if(typeof page === 'number' && page > 0){
-              console.log(page)
-              this.page = page
-              if(page>=5){
-                this.lists = ['...',page-2,page-1,page,page+1,page+2,'...']
-              }else {
-                this.lists = [1,2,3,4,5,'...']
+          // change(page){
+          //   if(typeof page === 'number' && page > 0){
+          //     console.log(page)
+          //     if(page>=5){
+          //       this.lists = ['...',page-2,page-1,page,page+1,page+2,'...']
+          //     }else {
+          //       this.lists = [1,2,3]
+          //     }
+          //     this.getNum(page)
+          //   }
+          // },
+        getNum(page){
+          if(page<=0){return}
+          this.$http.get(`http://47.102.217.102:8080/noteshare2/post/getPostPageInfo `).then((res)=>{
+            console.log('当前帖子',res)
+            if(res.status === 200 && res.data.msg==='成功'){
+              this.lists = res.data.data.nums
+              this.zoomId = res.data.data.zoomId
+              let totalpage = res.data.data.totalPage
+              if(page<=totalpage){
+                this.page = page
+                this.$emit('changePage',this.page,this.zoomId)
               }
-              this.$emit('changePage',this.page)
             }
-          }
+          }).catch((err)=>{
+            console.log(err)
+          })
+        }
       }
     }
 </script>
