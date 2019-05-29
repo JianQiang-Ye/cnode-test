@@ -35,15 +35,18 @@
         </li>
       </ul>
     </div>
+    <AddTopic @updatePostData="handleUpdate" class="AddTopic"></AddTopic>
   </div>
 </template>
 
 <script>
   import Pagination from './Pagination'
+  import AddTopic from './AddTopic'
   export default {
     name: "post-list",
     components:{
-      Pagination
+      Pagination,
+      AddTopic
     },
     data(){
       return {
@@ -111,6 +114,10 @@
         }).catch((err)=>{
           console.log(err)
         })
+      },
+      handleUpdate(){
+        console.log('111')
+        this.getData()
       },
       getPersonData(){
         this.$http.get(`http://47.102.217.102:8080/noteshare2/user/getUserOnline`).then((res)=>{
@@ -253,5 +260,8 @@
     color: #8492a6;
     font-size: 14px;
     margin-bottom: 20px;
+  }
+  .AddTopic{
+    margin-top: 50px;
   }
 </style>

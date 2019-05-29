@@ -33,9 +33,7 @@
         }),{withCredentials: true}).then(res=>{
           console.log('发表帖子的响应体')
           console.log(res)
-          if(res.data.data){
-
-          }
+          this.$emit('updatePostData')
         }).catch((res)=>{
           console.log(res)
         })
@@ -46,7 +44,8 @@
 
 <style scoped lang="scss">
   #app {
-    margin-top: 50px;
+
+    background-color: #f5f2f0;
   }
   #app > div{
     margin-bottom: 20px;
@@ -56,7 +55,7 @@
     input{
       width: 1133px;
       height: 50px;
-      background-color: transparent;
+      background-color: #f5f2f0;
       border: 0;
       outline:none;
       font-size: 34px;

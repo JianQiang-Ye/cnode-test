@@ -18,8 +18,7 @@ export default new Router({
       name: 'PostList',
       path: '/noteshare2/:tab',
       components: {
-        main: PostList,
-        add: Add
+        main: PostList
       }
     },
     {
